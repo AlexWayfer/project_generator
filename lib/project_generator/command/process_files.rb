@@ -44,7 +44,7 @@ module ProjectGenerator
 			def rename_files
 				puts 'Renaming files...'
 
-				RENAME_FILES_PLACEHOLDERS.each do |method_name, template_name|
+				self.class::RENAME_FILES_PLACEHOLDERS.each do |method_name, template_name|
 					real_name = @render_variables.public_send(method_name)
 
 					Dir["#{@directory}/**/*#{template_name}*"].each do |file_name|
