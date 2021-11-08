@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'gorilla_patch/blank'
 require 'gorilla_patch/inflections'
 require 'memery'
 require 'yaml'
@@ -14,7 +13,6 @@ module ProjectGenerator
 			class RenderVariables
 				include Memery
 
-				using GorillaPatch::Blank
 				using GorillaPatch::Inflections
 
 				attr_reader :name, :indentation
