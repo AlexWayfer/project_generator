@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+require_relative 'lib/<%= path %>/version'
+
+Gem::Specification.new do |spec|
+	spec.name = '<%= name %>'
+
+	spec.license = 'MIT'
+
+	spec.files = Dir['lib/**/*.rb', 'README.md', 'LICENSE.txt', 'CHANGELOG.md']
+
+	spec.required_ruby_version = '>= 2.6', '< 4'
+end
