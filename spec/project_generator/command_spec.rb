@@ -285,17 +285,6 @@ describe ProjectGenerator::Command do
 						let(:custom_file_name) { "#{template}/custom.rb.erb" }
 
 						before do
-							stub_const 'TestCommand::ProcessFiles', Module.new
-
-							stub_const(
-								'TestCommand::ProcessFiles::RenderVariables',
-								Class.new(ProjectGenerator::Command::ProcessFiles::RenderVariables) do
-									memoize def version_constant
-										"#{module_name}::VERSION"
-									end
-								end
-							)
-
 							File.write custom_file_name, <<~CONTENT
 								describe '<%= version_constant %>' do
 								end
@@ -306,27 +295,93 @@ describe ProjectGenerator::Command do
 							File.delete custom_file_name
 						end
 
-						shared_examples 'correct files with all data' do
-							include_examples 'common correct files with all data'
+						context 'when its initialization is not redefined' do
+							before do
+								stub_const 'TestCommand::ProcessFiles', Module.new
 
-							describe 'custom file' do
-								subject { File.read "#{project_name}/custom.rb" }
-
-								before do
-									run
-								end
-
-								let(:expected_lines) do
-									[
-										"describe 'FooBar::VERSION' do"
-									]
-								end
-
-								it { is_expected.to include_lines expected_lines }
+								stub_const(
+									'TestCommand::ProcessFiles::RenderVariables',
+									Class.new(ProjectGenerator::Command::ProcessFiles::RenderVariables) do
+										memoize def version_constant
+											"#{module_name}::VERSION"
+										end
+									end
+								)
 							end
+
+							shared_examples 'correct files with all data' do
+								include_examples 'common correct files with all data'
+
+								describe 'custom file' do
+									subject { File.read "#{project_name}/custom.rb" }
+
+									before do
+										run
+									end
+
+									let(:expected_lines) do
+										[
+											"describe 'FooBar::VERSION' do"
+										]
+									end
+
+									it { is_expected.to include_lines expected_lines }
+								end
+							end
+
+							include_examples 'correct behavior with template'
 						end
 
-						include_examples 'correct behavior with template'
+						context 'when its initialization is redefined' do
+							before do
+								stub_const('TestCommand::ProcessFiles', Module.new do
+									private
+
+									def initialize_render_variables
+										self.class::ProcessFiles::RenderVariables.new name, 'over9000', indentation
+									end
+								end)
+
+								TestCommand.include TestCommand::ProcessFiles
+
+								stub_const(
+									'TestCommand::ProcessFiles::RenderVariables',
+									Class.new(ProjectGenerator::Command::ProcessFiles::RenderVariables) do
+										def initialize(name, version, indentation)
+											super(name, indentation)
+
+											@version = version
+										end
+
+										memoize def version_constant
+											@version
+										end
+									end
+								)
+							end
+
+							shared_examples 'correct files with all data' do
+								include_examples 'common correct files with all data'
+
+								describe 'custom file' do
+									subject { File.read "#{project_name}/custom.rb" }
+
+									before do
+										run
+									end
+
+									let(:expected_lines) do
+										[
+											"describe 'over9000' do"
+										]
+									end
+
+									it { is_expected.to include_lines expected_lines }
+								end
+							end
+
+							include_examples 'correct behavior with template'
+						end
 					end
 				end
 
