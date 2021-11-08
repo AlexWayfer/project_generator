@@ -30,7 +30,7 @@ module ProjectGenerator
 			end
 
 			def initialize_render_variables
-				self.class.const_get(:RenderVariables).new name, indentation
+				self.class::ProcessFiles::RenderVariables.new name, indentation
 			end
 
 			def copy_files
@@ -84,7 +84,5 @@ module ProjectGenerator
 				end
 			end
 		end
-
-		private_constant :ProcessFiles
 	end
 end

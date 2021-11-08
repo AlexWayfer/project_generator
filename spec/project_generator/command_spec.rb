@@ -6,8 +6,8 @@ require 'inifile'
 describe ProjectGenerator::Command do
 	using GorillaPatch::DeepMerge
 
-	let(:test_command_class) do
-		Class.new(described_class) do
+	before do
+		stub_const('TestCommand', Class.new(described_class) do
 			def execute
 				check_target_directory
 
@@ -21,20 +21,20 @@ describe ProjectGenerator::Command do
 
 				done
 			end
-		end
+		end)
 	end
 
 	describe '.run' do
 		subject(:run) do
-			test_command_class.run('test_generator', args)
+			TestCommand.run('test_generator', args)
 		end
 
 		## I'd like to use `instance_double`, but it doesn't support `and_call_original`
-		let(:command_instance) { test_command_class.new('test_generator') }
+		let(:command_instance) { TestCommand.new('test_generator') }
 
 		before do
 			# allow(command_instance).to receive(:run).and_call_original
-			allow(test_command_class).to receive(:new).and_return command_instance
+			allow(TestCommand).to receive(:new).and_return command_instance
 		end
 
 		context 'without project name parameter' do
@@ -273,11 +273,61 @@ describe ProjectGenerator::Command do
 				context 'when this template is local (by default)' do
 					let(:template) { "#{__dir__}/../support/example_template" }
 
-					shared_examples 'correct files with all data' do
-						include_examples 'common correct files with all data'
+					context 'when `RenderVariables` is not redefined' do
+						shared_examples 'correct files with all data' do
+							include_examples 'common correct files with all data'
+						end
+
+						include_examples 'correct behavior with template'
 					end
 
-					include_examples 'correct behavior with template'
+					context 'when `RenderVariables` is redefined' do
+						let(:custom_file_name) { "#{template}/custom.rb.erb" }
+
+						before do
+							stub_const 'TestCommand::ProcessFiles', Module.new
+
+							stub_const(
+								'TestCommand::ProcessFiles::RenderVariables',
+								Class.new(ProjectGenerator::Command::ProcessFiles::RenderVariables) do
+									memoize def version_constant
+										"#{module_name}::VERSION"
+									end
+								end
+							)
+
+							File.write custom_file_name, <<~CONTENT
+								describe '<%= version_constant %>' do
+								end
+							CONTENT
+						end
+
+						after do
+							File.delete custom_file_name
+						end
+
+						shared_examples 'correct files with all data' do
+							include_examples 'common correct files with all data'
+
+							describe 'custom file' do
+								subject { File.read "#{project_name}/custom.rb" }
+
+								before do
+									run
+								end
+
+								let(:expected_lines) do
+									[
+										"describe 'FooBar::VERSION' do"
+									]
+								end
+
+								it { is_expected.to include_lines expected_lines }
+							end
+						end
+
+						include_examples 'correct behavior with template'
+					end
 				end
 
 				context 'with `--git` option (for template)' do

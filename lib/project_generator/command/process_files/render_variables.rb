@@ -48,8 +48,6 @@ module ProjectGenerator
 					module_name.split('::')
 				end
 			end
-
-			private_constant :RenderVariables
 		end
 	end
 end
