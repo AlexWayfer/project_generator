@@ -8,6 +8,9 @@ describe ProjectGenerator::Command do
 
 	before do
 		stub_const('TestCommand', Class.new(described_class) do
+			parameter 'NAME', 'name of a new project'
+			parameter 'TEMPLATE', 'template path of a new project'
+
 			def execute
 				check_target_directory
 

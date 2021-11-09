@@ -17,9 +17,6 @@ module ProjectGenerator
 	class Command < Clamp::Command
 		include ProcessFiles
 
-		parameter 'NAME', 'name of a new gem', inheritable: true
-		parameter 'TEMPLATE', 'template path of a new gem', inheritable: true
-
 		option ['-i', '--indentation'], 'TYPE', 'type of indentation (tabs or spaces)',
 			default: 'tabs' do |value|
 				## TODO: Add something like `:variants` to Clamp
@@ -32,16 +29,6 @@ module ProjectGenerator
 
 		option '--git', :flag, 'use TEMPLATE as GitHub path (clone and generate from it)',
 			default: false
-
-		class << self
-			def inherited(subcommand)
-				super
-
-				parameters.each do |parameter|
-					subcommand.parameters << parameter
-				end
-			end
-		end
 
 		# def execute
 		# 	check_target_directory
