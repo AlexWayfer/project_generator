@@ -68,6 +68,7 @@ module ProjectGenerator
 		end
 
 		def done
+			puts
 			puts 'Done.'
 
 			puts <<~HELP
