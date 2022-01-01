@@ -62,6 +62,7 @@ describe ProjectGenerator::Command do
 						'Rendering files...',
 						'Initializing git...',
 						'Done.',
+						no_args,
 						"To checkout into a new directory:\n\tcd foo_bar\n"
 					].each do |line|
 						allow($stdout).to receive(:puts).with(line)
