@@ -87,7 +87,10 @@ describe ProjectGenerator::Command do
 				end
 
 				after do
+					## https://github.com/rubocop/rubocop/issues/10813
+					# rubocop:disable Lint/NonAtomicFileOperation
 					FileUtils.rm_r project_name if Dir.exist? project_name
+					# rubocop:enable Lint/NonAtomicFileOperation
 				end
 
 				shared_examples 'correct behavior with template' do
