@@ -3,7 +3,6 @@
 [![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/AlexWayfer/project_generator?style=flat-square)](https://cirrus-ci.com/github/AlexWayfer/project_generator)
 [![Codecov branch](https://img.shields.io/codecov/c/github/AlexWayfer/project_generator/main.svg?style=flat-square)](https://codecov.io/gh/AlexWayfer/project_generator)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/AlexWayfer/project_generator.svg?style=flat-square)](https://codeclimate.com/github/AlexWayfer/project_generator)
-[![Depfu](https://img.shields.io/depfu/AlexWayfer/project_generator?style=flat-square)](https://depfu.com/repos/github/AlexWayfer/project_generator)
 [![Inline docs](https://inch-ci.org/github/AlexWayfer/project_generator.svg?branch=main)](https://inch-ci.org/github/AlexWayfer/project_generator)
 [![Gem](https://img.shields.io/gem/v/project_generator.svg?style=flat-square)](https://rubygems.org/gems/project_generator)
 [![License](https://img.shields.io/github/license/AlexWayfer/project_generator.svg?style=flat-square)](LICENSE.txt)
