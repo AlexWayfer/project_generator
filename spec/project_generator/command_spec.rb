@@ -99,6 +99,20 @@ describe ProjectGenerator::Command do
 								run ## parent subject with generation
 							end
 
+							describe 'template files existance' do
+								%w[
+									README.md.erb
+									project_name.gemspec.erb
+									foo_bar.gemspec.erb
+								].each do |file_name|
+									describe file_name do
+										subject { File.exist? file_path }
+
+										it { is_expected.to be false }
+									end
+								end
+							end
+
 							describe 'content' do
 								subject(:file_content) { File.read file_path }
 
