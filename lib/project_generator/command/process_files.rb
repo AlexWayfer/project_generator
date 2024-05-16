@@ -78,11 +78,13 @@ module ProjectGenerator
 					## Read a template file content and render it
 					content = ERB.new(content, trim_mode: '-').result(@render_variables.get_binding)
 
-					## Remove old template file
-					File.delete file_path
+					new_file_path = pathname.sub_ext('')
+
+					## Remove template file, save owner and permissions
+					File.rename file_path, new_file_path
 
 					## Remove `.erb` ext from file name
-					file_path = pathname.sub_ext('')
+					file_path = new_file_path
 				end
 
 				## Replace tabs with spaces if necessary
