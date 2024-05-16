@@ -11,31 +11,50 @@ Base for various CLI generation tools.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+It's designed as a base for developers to build specific generation CLIs,
+so the common way is to add this gem as a runtime gem dependency.
 
-```ruby
-gem 'project_generator'
-```
-
-And then execute:
-
-```shell
-bundle install
-```
-
-Or install it yourself as:
-
-```shell
-gem install project_generator
-```
+For now it even has no executables.
 
 ## Usage
 
 ```ruby
 require 'project_generator'
 
-# TODO
+## Your specific generator, like a gem generator
+module GemGenerator
+  ## Inherit it's `Command` (`clamp`s CLI) from `ProjectGenerator::Command`
+  class Command < ProjectGenerator::Command
+    ## You have to define `NAME` and `TEMPLATE` parameters
+    parameter 'NAME', 'name of a new gem'
+    parameter 'TEMPLATE', 'template path of a new gem'
+
+    def execute
+      ## You can execute logic of a specific generator wherever you want
+
+      check_target_directory
+
+      refine_template_parameter if git?
+
+      process_files
+
+      initialize_git
+
+      FileUtils.rm_r @git_tmp_dir if git?
+
+      done
+    end
+  end
+end
 ```
+
+Built-in options:
+
+*   `-i`, `--indentation`: indentation type in generated project (`tabs` or `spaces`).
+
+    _Note: please, write templates with tabs to have this option working,
+    because we can't safely transform number of spaces into tabs,
+    but we can transform tabs into spaces._
 
 ## Development
 
