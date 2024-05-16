@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.4.0 (2024-05-16)
+
+*   Replace indentation not only for template (ERB) files.
+*   Improve specs.
+*   Add Ruby 3.2 and 3.3 support.
+*   Move development dependencies from `gemspec` into `Gemfile`.
+*   Update development dependencies.
+
 ## 0.3.0 (2022-09-29)
 
 *   Drop Ruby 2.6 and 2.7.
