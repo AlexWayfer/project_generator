@@ -125,12 +125,12 @@ describe ProjectGenerator::Command do
 									it { is_expected.to include_lines expected_lines }
 								end
 
-								describe '.editorconfig' do
-									subject(:ini_file) do
-										IniFile.load(File.join(Dir.pwd, project_name, '.editorconfig')).to_h
-									end
+								context 'with default indentation (tabs)' do
+									describe '.editorconfig' do
+										subject(:ini_file) do
+											IniFile.load(File.join(Dir.pwd, project_name, '.editorconfig')).to_h
+										end
 
-									context 'with default indentation (tabs)' do
 										let(:expected_values) do
 											a_hash_including(
 												'*' => a_hash_including(
@@ -149,18 +149,31 @@ describe ProjectGenerator::Command do
 										end
 
 										it { is_expected.to match(expected_values).and not_match(not_expected_values) }
-
-										describe 'lib/foo_bar/version.rb' do
-											subject { file_content }
-
-											it { is_expected.to match(/^\tVERSION = '0.0.0'$/) }
-											it { is_expected.not_to match(/^  /) }
-										end
 									end
 
-									context 'with spaces indentation' do
-										let(:args) do
-											[*super(), '--indentation=spaces']
+									describe 'lib/foo_bar/version.rb' do
+										subject { file_content }
+
+										it { is_expected.to match(/^\tVERSION = '0.0.0'$/) }
+										it { is_expected.not_to match(/^  /) }
+									end
+
+									describe 'Gemfile' do
+										subject { file_content }
+
+										it { is_expected.to match(/^\tgem 'rspec', '~> (?:\d+\.)+\d+'$/) }
+										it { is_expected.not_to match(/^  /) }
+									end
+								end
+
+								context 'with spaces indentation' do
+									let(:args) do
+										[*super(), '--indentation=spaces']
+									end
+
+									describe '.editorconfig' do
+										subject(:ini_file) do
+											IniFile.load(File.join(Dir.pwd, project_name, '.editorconfig')).to_h
 										end
 
 										let(:expected_values) do
@@ -181,13 +194,20 @@ describe ProjectGenerator::Command do
 										end
 
 										it { is_expected.to match(expected_values).and not_match(not_expected_values) }
+									end
 
-										describe 'lib/foo_bar/version.rb' do
-											subject { file_content }
+									describe 'lib/foo_bar/version.rb' do
+										subject { file_content }
 
-											it { is_expected.to match(/^  VERSION = '0.0.0'$/) }
-											it { is_expected.not_to match(/^\t/) }
-										end
+										it { is_expected.to match(/^  VERSION = '0.0.0'$/) }
+										it { is_expected.not_to match(/^\t/) }
+									end
+
+									describe 'Gemfile' do
+										subject { file_content }
+
+										it { is_expected.to match(/^  gem 'rspec', '~> (?:\d+\.)+\d+'$/) }
+										it { is_expected.not_to match(/^\t/) }
 									end
 								end
 

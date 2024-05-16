@@ -61,27 +61,38 @@ module ProjectGenerator
 			def render_files
 				puts 'Rendering files...'
 
-				Dir.glob("#{@directory}/**/*.erb", File::FNM_DOTMATCH).each do |template_file|
-					## Read a template file content and render it
-					content =
-						ERB.new(File.read(template_file), trim_mode: '-').result(@render_variables.get_binding)
+				Dir.glob("#{@directory}/**/*", File::FNM_DOTMATCH).each do |file_path|
+					next unless File.file? file_path
 
-					## Replace tabs with spaces if necessary
-					## TODO: Take it out of `.erb` files
-					## TODO: Take number of spaces from `.editorconfig` file
-					## TODO: Don't convert files refined in `.editorconfig`
-					## TODO: Convert spaces to tabs
-					content.gsub!(/^\t+/) { |tabs| '  ' * tabs.count("\t") } if indentation == 'spaces'
-
-					## Render variables in file name
-					real_pathname = Pathname.new(template_file).sub_ext('')
-
-					## Rename template file
-					File.rename template_file, real_pathname
-
-					## Update file content
-					File.write real_pathname, content
+					render_file file_path
 				end
+			end
+
+			def render_file(file_path)
+				## Read file content
+				content = File.read file_path
+
+				pathname = Pathname.new file_path
+
+				if pathname.extname == '.erb'
+					## Read a template file content and render it
+					content = ERB.new(content, trim_mode: '-').result(@render_variables.get_binding)
+
+					## Remove old template file
+					File.delete file_path
+
+					## Remove `.erb` ext from file name
+					file_path = pathname.sub_ext('')
+				end
+
+				## Replace tabs with spaces if necessary
+				## TODO: Take number of spaces from `.editorconfig` file
+				## TODO: Don't convert files refined in `.editorconfig`
+				## TODO: Convert spaces to tabs
+				content.gsub!(/^\t+/) { |tabs| '  ' * tabs.count("\t") } if indentation == 'spaces'
+
+				## Update file content
+				File.write file_path, content
 			end
 		end
 	end
