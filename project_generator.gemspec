@@ -32,8 +32,8 @@ Gem::Specification.new do |spec|
 
 	spec.required_ruby_version = '~> 3.0'
 
-	spec.add_runtime_dependency 'alt_memery', '~> 2.0'
-	spec.add_runtime_dependency 'bundler', '~> 2.0'
-	spec.add_runtime_dependency 'clamp', '~> 1.3'
-	spec.add_runtime_dependency 'gorilla_patch', '~> 5.0'
+	spec.add_dependency 'alt_memery', '~> 2.0'
+	spec.add_dependency 'bundler', '~> 2.0'
+	spec.add_dependency 'clamp', '~> 1.3'
+	spec.add_dependency 'gorilla_patch', '~> 5.0'
 end
