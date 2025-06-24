@@ -282,7 +282,7 @@ describe ProjectGenerator::Command do
 					describe 'files' do
 						include_context 'with supressing regular output'
 
-						include_examples 'correct files with all data'
+						it_behaves_like 'correct files with all data'
 					end
 
 					context 'with incorrect indentation option' do
@@ -313,10 +313,10 @@ describe ProjectGenerator::Command do
 
 					context 'when `RenderVariables` is not redefined' do
 						shared_examples 'correct files with all data' do
-							include_examples 'common correct files with all data'
+							it_behaves_like 'common correct files with all data'
 						end
 
-						include_examples 'correct behavior with template'
+						it_behaves_like 'correct behavior with template'
 					end
 
 					context 'when `RenderVariables` is redefined' do
@@ -348,7 +348,7 @@ describe ProjectGenerator::Command do
 							end
 
 							shared_examples 'correct files with all data' do
-								include_examples 'common correct files with all data'
+								it_behaves_like 'common correct files with all data'
 
 								describe 'custom file' do
 									subject { File.read "#{project_name}/custom.rb" }
@@ -367,7 +367,7 @@ describe ProjectGenerator::Command do
 								end
 							end
 
-							include_examples 'correct behavior with template'
+							it_behaves_like 'correct behavior with template'
 						end
 
 						context 'when its initialization is redefined' do
@@ -399,7 +399,7 @@ describe ProjectGenerator::Command do
 							end
 
 							shared_examples 'correct files with all data' do
-								include_examples 'common correct files with all data'
+								it_behaves_like 'common correct files with all data'
 
 								describe 'custom file' do
 									subject { File.read "#{project_name}/custom.rb" }
@@ -418,7 +418,7 @@ describe ProjectGenerator::Command do
 								end
 							end
 
-							include_examples 'correct behavior with template'
+							it_behaves_like 'correct behavior with template'
 						end
 					end
 				end
@@ -445,10 +445,10 @@ describe ProjectGenerator::Command do
 					end
 
 					shared_examples 'correct files with all data' do
-						include_examples 'common correct files with all data'
+						it_behaves_like 'common correct files with all data'
 					end
 
-					include_examples 'correct behavior with template'
+					it_behaves_like 'correct behavior with template'
 				end
 			end
 		end
