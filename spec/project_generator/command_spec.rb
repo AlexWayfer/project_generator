@@ -424,9 +424,7 @@ describe ProjectGenerator::Command do
 				end
 
 				context 'with `--git` option (for template)' do
-					template = 'AlexWayfer/gem_template'
-
-					let(:template) { template }
+					let(:template) { 'AlexWayfer/gem_template' }
 					let(:args) { [*super(), '--git'] }
 
 					before do
