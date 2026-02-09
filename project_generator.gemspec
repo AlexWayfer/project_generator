@@ -30,10 +30,10 @@ Gem::Specification.new do |spec|
 
 	spec.files = Dir['lib/**/*.rb', 'README.md', 'LICENSE.txt', 'CHANGELOG.md']
 
-	spec.required_ruby_version = '>= 3.2', '< 4'
+	spec.required_ruby_version = '>= 3.2', '< 5'
 
-	spec.add_dependency 'alt_memery', '~> 2.0'
+	spec.add_dependency 'alt_memery', '~> 3.0'
 	spec.add_dependency 'bundler', '>= 2.0', '< 5.0'
 	spec.add_dependency 'clamp', '~> 1.3'
-	spec.add_dependency 'gorilla_patch', '~> 5.0'
+	spec.add_dependency 'gorilla_patch', '~> 6.0'
 end
