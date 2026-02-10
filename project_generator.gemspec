@@ -34,6 +34,6 @@ Gem::Specification.new do |spec|
 
 	spec.add_dependency 'alt_memery', '~> 3.0'
 	spec.add_dependency 'bundler', '>= 2.0', '< 5.0'
-	spec.add_dependency 'clamp', '~> 1.3'
+	spec.add_dependency 'clamp', '1.4.0'
 	spec.add_dependency 'gorilla_patch', '~> 6.0'
 end
