@@ -4,10 +4,10 @@
 
 ## 1.0.0 (2026-02-09)
 
-*  Drop Ruby 3.0 and 3.1 support.
-*  Add Ruby 3.4 and 4.0 support.
-*  Update dependencies.
-*  Resolve new RuboCop offenses.
+*   Drop Ruby 3.0 and 3.1 support.
+*   Add Ruby 3.4 and 4.0 support.
+*   Update dependencies.
+*   Resolve new RuboCop offenses.
 
 ## 0.4.0 (2024-05-16)
 
