@@ -18,7 +18,7 @@ end
 group :test do
 	gem 'inifile', '~> 3.0'
 	gem 'rspec', '~> 3.9'
-	gem 'simplecov', '~> 0.22.0'
+	gem 'simplecov', '~> 1.0.1'
 	gem 'simplecov-cobertura', '~> 3.0'
 end
 
